@@ -1,0 +1,9 @@
+bin/
+obj/
+AssemblyVersionInfo.fs
+AssemblyVersionInfo.cs
+packages/
+*.suo
+vendor/
+*.swp
+build/
