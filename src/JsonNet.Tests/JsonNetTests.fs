@@ -21,6 +21,10 @@ module TypeNamingTests =
 
   type A = | B | C
 
+  module Internal =
+
+    type I = I of string
+
   let [<FactNoMono>] ``class in ordinary namespace`` () =
     let name = TypeNaming.nameObj 2I
     name =? "urn:System.Numerics:BigInteger"
