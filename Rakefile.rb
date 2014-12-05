@@ -9,8 +9,8 @@ require 'albacore/ext/teamcity'
 Albacore::Tasks::Versionizer.new :versioning
 Configuration = 'Release'
 
-desc 'Perform fast build (warn: doesn\'t d/l deps)'
-build :quick_build do |b|
+desc 'Perform fast compilation (warn: doesn\'t d/l deps)'
+build :quick_compile do |b|
   b.sln = 'src/Intelliplan.JsonNet.sln'
 end
 
@@ -34,20 +34,23 @@ asmver_files :assembly_info => :versioning do |a|
                assembly_informational_version: ENV['BUILD_VERSION']
 end
 
-desc 'perform full build'
-build :build => [:versioning, :assembly_info, :restore] do |b|
+desc 'perform full compilation'
+build :compile => [:versioning, :assembly_info, :restore] do |b|
+  b.prop 'Configuration', Configuration
   b.sln = 'src/Intelliplan.JsonNet.sln'
 end
 
-desc 'run the unit tests'
-task :tests do
-  system "src/Intelliplan.JsonNet.Tests/bin/#{Configuration}/Intelliplan.JsonNet.Tests.exe"
+task :tests_quick do
+  system "src/JsonNet.Tests/bin/#{Configuration}/Intelliplan.JsonNet.Tests.exe", clr_command: true
 end
+
+desc 'run the unit tests'
+task :tests => [:tests_quick, :compile]
 
 directory 'build/pkg'
 
 desc 'package nugets - finds all projects and package them'
-nugets_pack :create_nugets => ['build/pkg', :versioning, :build] do |p|
+nugets_pack :create_nugets => ['build/pkg', :versioning, :compile, :tests] do |p|
   p.files   = FileList['src/**/*.{csproj,fsproj,nuspec}'].
     exclude(/Tests/)
   p.out     = 'build/pkg'
