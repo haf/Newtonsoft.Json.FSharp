@@ -203,7 +203,7 @@ module UnionConverterTests =
         test <| D5(-43, { lhs = "LHS" ; rhs = "RHS" })
 
       testCase "serialising E2 - union containing tuple" <| fun _ ->
-        System.Diagnostics.Debug.Listeners.Add(new System.Diagnostics.DefaultTraceListener()) |> ignore
+//        System.Diagnostics.Debug.Listeners.Add(new System.Diagnostics.DefaultTraceListener()) |> ignore
         test <| E2(0., "mystring", 2I, { lhs = "a"; rhs = "b" })
 
       testCase "serialising nested union" <| fun _ ->
