@@ -2,9 +2,12 @@ require 'bundler/setup'
 
 require 'albacore'
 require 'albacore/tasks/versionizer'
+require 'albacore/tasks/release'
+
 require 'albacore/ext/teamcity'
 
 Albacore::Tasks::Versionizer.new :versioning
+Configuration = 'Release'
 
 desc 'Perform fast build (warn: doesn\'t d/l deps)'
 build :quick_build do |b|
@@ -23,8 +26,8 @@ asmver_files :assembly_info => :versioning do |a|
 
   # attributes are required:
   a.attributes assembly_description: 'Different serializers for Newtonsoft.Json, making it easier to work with JSON data with Newtonsoft.Json from F#.',
-               assembly_configuration: 'RELEASE',
-               assembly_company: 'Intelliplan International AB',
+               assembly_configuration: Configuration,
+               assembly_company: 'Intelliplan International AB, Logibit AB',
                assembly_copyright: "(c) #{Time.now.year} by Henrik Feldt",
                assembly_version: ENV['LONG_VERSION'],
                assembly_file_version: ENV['LONG_VERSION'],
@@ -34,6 +37,11 @@ end
 desc 'perform full build'
 build :build => [:versioning, :assembly_info, :restore] do |b|
   b.sln = 'src/Intelliplan.JsonNet.sln'
+end
+
+desc 'run the unit tests'
+task :tests do
+  system "src/Intelliplan.JsonNet.Tests/bin/#{Configuration}/Intelliplan.JsonNet.Tests.exe"
 end
 
 directory 'build/pkg'
@@ -46,9 +54,15 @@ nugets_pack :create_nugets => ['build/pkg', :versioning, :build] do |p|
   p.exe     = 'buildsupport/NuGet.exe'
   p.with_metadata do |m|
     m.description = 'Different serializers for Newtonsoft.Json, making it easier to work with JSON data with Newtonsoft.Json from F#.'
-    m.authors = 'Henrik Feldt, Intelliplan International AB'
+    m.authors = 'Henrik Feldt, Logibit AB'
     m.version = ENV['NUGET_VERSION']
   end
 end
+
+Albacore::Tasks::Release.new :release,
+                             pkg_dir: 'build/pkg',
+                             depend_on: :create_nugets,
+                             nuget_exe: 'buildsupport/NuGet.exe',
+                             api_key: ENV['NUGET_KEY']
 
 task :default => :create_nugets
