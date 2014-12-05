@@ -39,21 +39,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\FSharp.Core.3.0.0.2\lib\net40\FSharp.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NodaTime">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NodaTime.1.3.0\lib\net35-Client\NodaTime.dll</HintPath>
-    </Reference>
-    <Reference Include="policy.2.3.FSharp.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\FSharp.Core.3.0.0.2\lib\net40\policy.2.3.FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,6 +49,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\FSharp.Core.3.0.0.2\lib\net40\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="policy.2.3.FSharp.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\FSharp.Core.3.0.0.2\lib\net40\policy.2.3.FSharp.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyVersionInfo.cs" />

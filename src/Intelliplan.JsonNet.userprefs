@@ -1,0 +1,13 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="JsonNet.Tests/JsonNetTests.fs">
+    <Files>
+      <File FileName="JsonNet.Tests/JsonNetTests.fs" Line="39" Column="39" />
+      <File FileName="JsonNet.Tests/Properties.fs" Line="35" Column="35" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

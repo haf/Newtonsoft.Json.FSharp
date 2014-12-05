@@ -71,7 +71,10 @@ module TypeNaming =
 
     ; { readableName = "for nested types"
       ; applies      = fun typ -> typ.DeclaringType <> null && not <| FSharpType.IsUnion(typ.DeclaringType)
-      ; apply        = fun typ v -> (sprintf "%s_" <| typ.DeclaringType.Name.Replace("+", "_")), Some(typ)
+      ; apply        = fun typ v ->
+        let start = typ.DeclaringType.FullName.LastIndexOf '.'
+        let full_parent = typ.DeclaringType.FullName.Substring (start + 1)
+        (sprintf "%s_" <| full_parent.Replace("+", "_")), Some(typ)
       // not used
       ; deconstruct  = (fun _ -> "", None) }
 

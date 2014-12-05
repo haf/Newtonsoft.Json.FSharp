@@ -1,7 +1,7 @@
 ﻿module Properties
 
 open System
-open Xunit
+open Fuchu
 open FsCheck
 open Newtonsoft.Json
 open Intelliplan.JsonNet.Serialisation
@@ -26,9 +26,11 @@ let converters =
   ; ListConverter() :> JsonConverter
   ; OptionConverter() :> JsonConverter ]
 
-let [<Fact>] ``serialising any`` () =
-  let CanSerialiseAnyUnion (a : B) =
-    let serialised = JsonConvert.SerializeObject(a, Formatting.Indented, List.toArray converters)
-    let deserialised = JsonConvert.DeserializeObject(serialised, List.toArray converters)
-    deserialised = a
-  FsCheck.Check.Verbose CanSerialiseAnyUnion
+[<Tests>]
+let any =
+  testCase "serialising any" <| fun _ ->
+    let CanSerialiseAnyUnion (a : B) =
+      let serialised = JsonConvert.SerializeObject(a, Formatting.Indented, List.toArray converters)
+      let deserialised = JsonConvert.DeserializeObject(serialised, List.toArray converters)
+      deserialised = a
+    FsCheck.Check.Verbose CanSerialiseAnyUnion
