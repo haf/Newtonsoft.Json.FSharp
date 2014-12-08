@@ -49,60 +49,63 @@ module TypeNaming =
   let private nameConcerns : Concern list =
     [
       { readableName = "add urn at start"
-      ; applies      = fun typ -> true
-      ; apply        = fun typ v -> "urn:", Some(typ)
-      ; deconstruct  = function
-      // remove urn: prefix
+        applies      = fun typ -> true
+        apply        = fun typ v -> "urn:", Some(typ)
+        deconstruct  = function
+          // remove urn: prefix
           | Pre "urn:" rest, state -> rest, Some(UrnTypeName.Empty)
           | s, state               -> s, None }
 
-    ; { readableName = "add namespace"
-      ; applies      = fun typ -> true
-      ; apply        = fun typ v -> (sprintf "%s:" typ.Namespace), Some(typ)
-      ; deconstruct  = function
-      // parse namespace
+      { readableName = "add namespace"
+        applies      = fun typ -> true
+        apply        = fun typ v -> (sprintf "%s:" typ.Namespace), Some(typ)
+        deconstruct  = function
+          // parse namespace
           | Until ':' (ns, rest), state -> rest.TrimStart(':'), Some({ state with Namespace = ns })
           | _                           -> "", None }
 
-    ; { readableName = "ordinary types"
-      ; applies      = fun typ   -> typ.DeclaringType = null && not <| FSharpType.IsUnion(typ)
-      ; apply        = fun typ v -> (sprintf "%s" typ.Name), Some(typ)
-      ; deconstruct  = fun (str, state) -> str, Some({ state with Name = str }) }
+      { readableName = "ordinary types"
+        applies      = fun typ   -> typ.DeclaringType = null && not <| FSharpType.IsUnion(typ)
+        apply        = fun typ v -> (sprintf "%s" typ.Name), Some(typ)
+        deconstruct  = fun (str, state) -> str, Some({ state with Name = str }) }
 
-    ; { readableName = "for nested types"
-      ; applies      = fun typ -> typ.DeclaringType <> null && not <| FSharpType.IsUnion(typ.DeclaringType)
-      ; apply        = fun typ v ->
-        let start = typ.DeclaringType.FullName.LastIndexOf '.'
-        let full_parent = typ.DeclaringType.FullName.Substring (start + 1)
-        (sprintf "%s_" <| full_parent.Replace("+", "_")), Some(typ)
-      // not used
-      ; deconstruct  = (fun _ -> "", None) }
+      { readableName = "for nested types"
+        applies      = fun typ -> typ.DeclaringType <> null && not <| FSharpType.IsUnion(typ.DeclaringType)
+        apply        = fun typ v ->
+          let start = typ.DeclaringType.FullName.LastIndexOf '.'
+          let full_parent = typ.DeclaringType.FullName.Substring (start + 1)
+          (sprintf "%s_" <| full_parent.Replace("+", "_")), Some(typ)
+        // not used
+        deconstruct  = (fun _ -> "", None) }
 
-    ; { readableName = "disc. type owned discriminated union names"
-      ; applies      = fun typ -> typ.DeclaringType <> null && FSharpType.IsUnion(typ.DeclaringType)
-      ; apply        = fun typ v -> (sprintf "%s|%s" typ.DeclaringType.Name typ.Name), None
-      ; deconstruct  = function
-      // for getting type name
+      { readableName = "disc. type owned discriminated union names"
+        applies      = fun typ -> typ.DeclaringType <> null && FSharpType.IsUnion(typ.DeclaringType)
+        apply        = fun typ v ->
+          let start = typ.DeclaringType.FullName.LastIndexOf '.'
+          let full_parent = typ.DeclaringType.FullName.Substring (start + 1)
+          (sprintf "%s|%s" (full_parent.Replace("+", "_")) typ.Name), None
+        deconstruct  = function
+          // for getting type name
           | Until '|' (tname, rest), state -> rest, Some({ state with Name = tname })
           | _                              -> "", None }
 
-    ; { readableName = "module-owned disc. unions"
-      ; applies      = fun typ -> typ.DeclaringType <> null && FSharpType.IsUnion(typ)
-      ; apply        = fun typ v ->
+      { readableName = "module-owned disc. unions"
+        applies      = fun typ -> typ.DeclaringType <> null && FSharpType.IsUnion(typ)
+        apply        = fun typ v ->
           let caseInfo, values = FSharpValue.GetUnionFields(v, typ, BF.Public ||| BF.NonPublic)
           (sprintf "%s|%s" typ.Name caseInfo.Name ), None
-      ; deconstruct  = function
-      // for getting case name
+        deconstruct  = function
+          // for getting case name
           | Pre "|" rest, state -> rest, Some({ state with CaseName = Some(rest) })
           | _                   -> "", None }
 
-    ; { readableName = "free-standing union types"
-      ; applies      = fun typ -> typ.DeclaringType = null && FSharpType.IsUnion(typ)
-      ; apply        = fun typ v ->
+      { readableName = "free-standing union types"
+        applies      = fun typ -> typ.DeclaringType = null && FSharpType.IsUnion(typ)
+        apply        = fun typ v ->
           let caseInfo, values = FSharpValue.GetUnionFields(v, typ, BF.Public ||| BF.NonPublic)
           (sprintf "%s|%s" typ.Name caseInfo.Name ), None
-      // not used
-      ; deconstruct  = (fun _ -> "", None) }
+        // not used
+        deconstruct  = (fun _ -> "", None) }
     ]
   
   let name v (t : System.Type) =
@@ -113,12 +116,15 @@ module TypeNaming =
       match concerns with
       | [] -> acc.ToString()
       | { readableName = n
-        ; apply        = fa } :: restConcerns ->
+          apply        = fa } :: restConcerns ->
         match fa t v with
         | _ as partName, Some(t') ->
-          //System.Diagnostics.Debug.WriteLine(sprintf "looking at: %s, adding: %s, next type: %s" n partName t'.FullName)
+//          System.Diagnostics.Debug.WriteLine(sprintf "looking at: %s, adding: %s, next type: %s" n partName t'.FullName)
+//          System.Console.WriteLine(sprintf "looking at: %s, adding: %s, next type: %s" n partName t'.FullName)
           apply restConcerns t' (acc.Append(partName))
-        | _ as partName, None     -> acc.Append(partName).ToString()
+        | _ as partName, None     ->
+//          System.Console.WriteLine(sprintf "looking at: %s, adding: %s, next type: None" n partName)
+          acc.Append(partName).ToString()
 
     apply concerns t (new StringBuilder())
 
