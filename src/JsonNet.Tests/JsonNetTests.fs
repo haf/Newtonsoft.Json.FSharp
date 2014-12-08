@@ -36,6 +36,10 @@ module TypeNamingTests =
         let name = TypeNaming.nameObj (B)
         name =? "urn:Intelliplan.JsonNet.Tests:TypeNamingTests_A|B"
 
+      testCase "union nested type 2 (DeclaringType is not null)" <| fun _ ->
+        let name = TypeNaming.nameObj (logibit.Principals.Principal.X)
+        name =? "urn:logibit.Principals:Principal_Cmd|X"
+
       testCase "union nested and module-nested type (DeclaringType is not null)" <| fun _ ->
         let name = TypeNaming.nameObj (Internally.I "greet the world")
         name =? "urn:Intelliplan.JsonNet.Tests:TypeNamingTests_Internally_I|I"
@@ -176,18 +180,27 @@ module UnionConverterTests =
     | E2 of float * string * bigint * C
   and C = { lhs : string; rhs : string }
 
+  module Inner =
+
+    type Nabla =
+      | N1
+
   let converters = 
     [ Fac.bigIntConv :> JsonConverter
-    ; Fac.unionConv :> JsonConverter
-    ; Fac.tupleConv :> JsonConverter ]
+      Fac.unionConv :> JsonConverter
+      Fac.tupleConv :> JsonConverter ]
 
   let test<'a when 'a : equality> : 'a -> unit = test converters
 
+  [<Tests>]
   let union_converter_tests =
     testList "union converter tests" [
 
       testCase "serialising simple union" <| fun _ ->
         test <| D1("hello", -2)
+
+      testCase "serialising simple nested union" <| fun _ ->
+        test <| Inner.N1
 
       testCase "deserialising simple union" <| fun _ ->
         JsonConvert.DeserializeObject(sampleStr, typeof<Event>, Fac.unionConv)

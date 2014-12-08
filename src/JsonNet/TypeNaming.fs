@@ -136,7 +136,7 @@ module TypeNaming =
         | rest', None           -> parse'(cs, rest, nameRec)
         // recurse, decreasing the look variant; the number of concerns
         | rest', Some(nameRec') ->
-          System.Diagnostics.Debug.WriteLine(sprintf "[%s] matches, current state: %s" n (nameRec.ToString()))
+          //System.Diagnostics.Debug.WriteLine(sprintf "[%s] matches, current state: %s" n (nameRec.ToString()))
           parse'(cs, rest', nameRec')
     // start recursion
     parse'(nameConcerns, urn, UrnTypeName.Empty)

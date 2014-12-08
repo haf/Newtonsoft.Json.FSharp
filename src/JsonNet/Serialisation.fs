@@ -13,7 +13,7 @@ open Microsoft.FSharp.Reflection
 [<AutoOpen>]
 module internal SerialisationFunctions =
 
-  let debug = System.Diagnostics.Debug.WriteLine
+//  let debug = System.Diagnostics.Debug.WriteLine
 
   // parser functions
 
