@@ -20,17 +20,23 @@ and E = { lhs : string; rhs : string }
 
 let converters = 
   [ BigIntConverter() :> JsonConverter
-  ; UnionConverter() :> JsonConverter
-  ; TupleArrayConverter() :> JsonConverter
-  ; MapConverter() :> JsonConverter
-  ; ListConverter() :> JsonConverter
-  ; OptionConverter() :> JsonConverter ]
+    UnionConverter() :> JsonConverter
+    TupleArrayConverter() :> JsonConverter
+    MapConverter() :> JsonConverter
+    ListConverter() :> JsonConverter
+    OptionConverter() :> JsonConverter ]
+
+type MyArbs =
+  static member Strings () =
+    Arb.filter (fun s -> s <> null) (Arb.Default.String ())
+
+let no_nulls =
+  { FsCheck.Config.Default
+      with Arbitrary = [ typeof<MyArbs> ] }
 
 [<Tests>]
 let any =
-  testCase "serialising any" <| fun _ ->
-    let CanSerialiseAnyUnion (a : B) =
-      let serialised = JsonConvert.SerializeObject(a, Formatting.Indented, List.toArray converters)
-      let deserialised = JsonConvert.DeserializeObject(serialised, List.toArray converters)
-      deserialised = a
-    FsCheck.Check.Verbose CanSerialiseAnyUnion
+  testPropertyWithConfig no_nulls "serialising any" <| fun (a : B) ->
+    let serialised = JsonConvert.SerializeObject(a, Formatting.Indented, List.toArray converters)
+    let deserialised = JsonConvert.DeserializeObject(serialised, List.toArray converters)
+    deserialised = a

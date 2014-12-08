@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Intelliplan.JsonNet.Tests</RootNamespace>
     <AssemblyName>Intelliplan.JsonNet.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,16 +33,10 @@
     <Tailcalls>true</Tailcalls>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FsCheck">
-      <HintPath>..\packages\FsCheck.0.9.1.0\lib\net40-Client\FsCheck.dll</HintPath>
-    </Reference>
     <Reference Include="FSharp.Core">
       <HintPath>..\packages\FSharp.Core.3.0.0.2\lib\net40\FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="policy.2.3.FSharp.Core">
       <HintPath>..\packages\FSharp.Core.3.0.0.2\lib\net40\policy.2.3.FSharp.Core.dll</HintPath>
     </Reference>
@@ -54,6 +48,15 @@
     </Reference>
     <Reference Include="Fuchu">
       <HintPath>..\packages\Fuchu.0.4.0.0\lib\Fuchu.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="FsCheck">
+      <HintPath>..\packages\FsCheck.1.0.3\lib\net45\FsCheck.dll</HintPath>
+    </Reference>
+    <Reference Include="Fuchu.FsCheck">
+      <HintPath>..\packages\Fuchu.FsCheck.0.4.0.0\lib\Fuchu.FsCheck.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

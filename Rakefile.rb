@@ -7,17 +7,18 @@ require 'albacore/tasks/release'
 require 'albacore/ext/teamcity'
 
 Albacore::Tasks::Versionizer.new :versioning
-Configuration = 'Release'
+Configuration = ENV['CONFIGURATION'] || 'Release'
 
 desc 'Perform fast compilation (warn: doesn\'t d/l deps)'
 build :quick_compile do |b|
+  b.prop 'Configuration', Configuration
   b.sln = 'src/Intelliplan.JsonNet.sln'
 end
 
 desc 'restore all nugets as per the packages.config files'
 nugets_restore :restore do |p|
   p.out = 'src/packages'
-  p.exe = 'buildsupport/NuGet.exe'
+  p.exe = 'tools/NuGet.exe'
 end
 
 desc 'create assembly infos'
@@ -51,10 +52,11 @@ directory 'build/pkg'
 
 desc 'package nugets - finds all projects and package them'
 nugets_pack :create_nugets => ['build/pkg', :versioning, :compile, :tests] do |p|
+  p.configuration = Configuration
   p.files   = FileList['src/**/*.{csproj,fsproj,nuspec}'].
     exclude(/Tests/)
   p.out     = 'build/pkg'
-  p.exe     = 'buildsupport/NuGet.exe'
+  p.exe     = 'tools/NuGet.exe'
   p.with_metadata do |m|
     m.description = 'Different serializers for Newtonsoft.Json, making it easier to work with JSON data with Newtonsoft.Json from F#.'
     m.authors = 'Henrik Feldt, Logibit AB'
@@ -65,7 +67,7 @@ end
 Albacore::Tasks::Release.new :release,
                              pkg_dir: 'build/pkg',
                              depend_on: :create_nugets,
-                             nuget_exe: 'buildsupport/NuGet.exe',
+                             nuget_exe: 'tools/NuGet.exe',
                              api_key: ENV['NUGET_KEY']
 
 task :default => :create_nugets
