@@ -64,9 +64,13 @@ nugets_pack :create_nugets => ['build/pkg', :versioning, :compile, :tests] do |p
   end
 end
 
+task :ensure_key do
+  raise 'missing env NUGET_KEY' unless ENV['NUGET_KEY']
+end
+
 Albacore::Tasks::Release.new :release,
                              pkg_dir: 'build/pkg',
-                             depend_on: :create_nugets,
+                             depend_on: [:create_nugets, :ensure_key],
                              nuget_exe: 'tools/NuGet.exe',
                              api_key: ENV['NUGET_KEY']
 
