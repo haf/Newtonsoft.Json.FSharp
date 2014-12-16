@@ -1,5 +1,6 @@
 require 'bundler/setup'
 
+require 'rake/clean'
 require 'albacore'
 require 'albacore/tasks/versionizer'
 require 'albacore/tasks/release'
@@ -9,16 +10,28 @@ require 'albacore/ext/teamcity'
 Albacore::Tasks::Versionizer.new :versioning
 Configuration = ENV['CONFIGURATION'] || 'Release'
 
+build :build_clean do |b|
+  b.target = 'Clean'
+  b.prop 'Configuration', Configuration
+  b.sln = 'src/Intelliplan.JsonNet.sln'
+end
+
+task :clean => :build_clean
+
 desc 'Perform fast compilation (warn: doesn\'t d/l deps)'
 build :quick_compile do |b|
   b.prop 'Configuration', Configuration
   b.sln = 'src/Intelliplan.JsonNet.sln'
 end
 
+task :paket_bootstrap do
+    system 'tools/paket.bootstrapper.exe', clr_command: true unless \
+          File.exists? 'tools/paket.exe'
+end
+
 desc 'restore all nugets as per the packages.config files'
-nugets_restore :restore do |p|
-  p.out = 'src/packages'
-  p.exe = 'tools/NuGet.exe'
+task :restore => :paket_bootstrap do
+    system 'tools/paket.exe', 'restore', clr_command: true
 end
 
 desc 'create assembly infos'
@@ -48,6 +61,7 @@ end
 desc 'run the unit tests'
 task :tests => [:tests_quick, :compile]
 
+CLEAN.add 'build'
 directory 'build/pkg'
 
 desc 'package nugets - finds all projects and package them'

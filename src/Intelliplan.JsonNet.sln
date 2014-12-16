@@ -1,6 +1,12 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{50F74FA7-EEC9-4A3F-A3EB-8584C015BC83}"
+	ProjectSection(SolutionItems) = preProject
+		..\paket.dependencies = ..\paket.dependencies
+		..\paket.lock = ..\paket.lock
+	EndProjectSection
+EndProject
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Intelliplan.JsonNet", "JsonNet\Intelliplan.JsonNet.fsproj", "{4783F637-FB90-466D-B33F-B297C1F33DD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intelliplan.JsonNet.NodaTime", "JsonNet.NodaTime\Intelliplan.JsonNet.NodaTime.csproj", "{377D2D0A-8DC6-4DE8-9AF1-400E219E3985}"

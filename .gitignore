@@ -8,3 +8,4 @@ vendor/
 *.swp
 build/
 *.userprefs
+paket.exe
