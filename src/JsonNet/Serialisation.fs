@@ -343,31 +343,31 @@ module Serialisation =
   /// JsonSerializer settings, and return the type name
   /// and the data of the type as a tuple. Uses indented formatting.
   [<CompiledName("Serialise"); Extension>]
-  let serialise o =
-    let s = JsonSerializer.Create (opts |> fun o ->
-        o.Formatting <- Newtonsoft.Json.Formatting.Indented
-        o |> extend)
+  let serialise opts o =
+    let name = TypeNaming.nameObj o
     use ms = new IO.MemoryStream()
-    (use jsonWriter = new JsonTextWriter(new IO.StreamWriter(ms))
-    s.Serialize(jsonWriter, o))
-    let data = ms.ToArray()
-    (TypeNaming.nameObj o), data
+    use jsonWriter = new JsonTextWriter(new IO.StreamWriter(ms))
+    let s = JsonSerializer.Create opts
+    s.Serialize(jsonWriter, o)
+    name, ms.ToArray()
+
+  let serialise' o =
+    serialise opts o
 
   /// Deserialise to the type t, from the data in the byte array
-  let deserialise (t, data:byte array) =
+  let deserialise opts (t, data:byte array) =
     use ms = new IO.MemoryStream(data)
     use jsonReader = new JsonTextReader(new IO.StreamReader(ms))
+    let s = JsonSerializer.Create opts
     s.Deserialize(jsonReader, t)
+
+  let deserialise' o =
+    deserialise opts o
 
   /// Return the serialize and deserialize methods.
   /// The serialize method takes an object and returns its event
   /// type as a string and a byte array with the serialized data
-  let serialiser = serialise, deserialise
+  let serialiser opts = serialise opts, deserialise opts
 
-  /// Deserialise to the passed type, from the UTF8-encoded
-  /// textual JSON. Return the object typed as 'T.
-  let deserialiset<'T> (data:byte array) =
-    let json = System.Text.Encoding.UTF8.GetString(data)
-    use ms = new IO.MemoryStream(data)
-    use jsonReader = new JsonTextReader(new IO.StreamReader(ms))
-    s.Deserialize(jsonReader, typeof<'T>) :?> 'T
+  /// Shortcut with non-configurable JsonOptions
+  let serialiser' = serialise, deserialise
