@@ -42,6 +42,7 @@
     <Compile Include="Properties.fs" />
     <None Include="paket.references" />
     <Compile Include="Samples.fs" />
+    <Compile Include="Serialisation.fs" />
     <Compile Include="JsonNetTests.fs" />
     <None Include="App.config" />
     <Compile Include="AssemblyVersionInfo.fs" />
@@ -133,14 +134,12 @@
   <ItemGroup>
     <Reference Include="Fuchu">
       <HintPath>..\..\packages\Fuchu\lib\Fuchu.dll</HintPath>
-      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Fuchu.FsCheck">
       <HintPath>..\..\packages\Fuchu.FsCheck\lib\Fuchu.FsCheck.dll</HintPath>
-      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>

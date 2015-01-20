@@ -346,9 +346,9 @@ module Serialisation =
   let serialise opts o =
     let name = TypeNaming.nameObj o
     use ms = new IO.MemoryStream()
-    use jsonWriter = new JsonTextWriter(new IO.StreamWriter(ms))
-    let s = JsonSerializer.Create opts
-    s.Serialize(jsonWriter, o)
+    (use jsonWriter = new JsonTextWriter(new IO.StreamWriter(ms))
+     let s = JsonSerializer.Create opts
+     s.Serialize(jsonWriter, o))
     name, ms.ToArray()
 
   let serialise' o =

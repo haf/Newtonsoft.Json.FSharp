@@ -10,7 +10,6 @@ open Fuchu
 
 open Intelliplan.JsonNet
 open Intelliplan.JsonNet.TypeNaming
-open Intelliplan.JsonNet.Serialisation
 
 type Outer = | D | E
 type Outer2 = | F | G
