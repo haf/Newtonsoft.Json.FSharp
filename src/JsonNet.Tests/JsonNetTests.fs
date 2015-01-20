@@ -185,7 +185,7 @@ module UnionConverterTests =
     type Nabla =
       | N1
 
-  let converters = 
+  let converters =
     [ Fac.bigIntConv :> JsonConverter
       Fac.unionConv :> JsonConverter
       Fac.tupleConv :> JsonConverter ]
