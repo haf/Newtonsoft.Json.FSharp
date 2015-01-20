@@ -14,8 +14,12 @@ let tests =
       Serialisation.serialise' "hi" |> ignore
 
     testCase "simple sum type" <| fun _ ->
+      let sample = HelloWorld ("hi", 12345)
       let name, data =
-        Serialisation.serialise' (HelloWorld ("hi", 12345))
+        Serialisation.serialise' sample
 
       Assert.Equal("should have data", true, data.Length > 0)
+
+      let o = Serialisation.deserialise' (typeof<HelloWorld>, data) :?> HelloWorld
+      Assert.Equal("should eq structurally", sample, o)
     ]
