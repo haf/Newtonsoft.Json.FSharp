@@ -370,4 +370,4 @@ module Serialisation =
   let serialiser opts = serialise opts, deserialise opts
 
   /// Shortcut with non-configurable JsonOptions
-  let serialiser' = serialise, deserialise
+  let serialiser' = serialise', deserialise'
