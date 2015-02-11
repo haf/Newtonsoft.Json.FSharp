@@ -1,4 +1,4 @@
-namespace Intelliplan.JsonNet
+namespace Newtonsoft.Json.FSharp
 
 // ok, so this is ugly, but unit tested and working
 module TypeNaming =

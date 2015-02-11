@@ -1,4 +1,4 @@
-namespace Intelliplan.JsonNet.Tests
+namespace Newtonsoft.Json.FSharp.Tests
 
 open System
 
@@ -8,8 +8,8 @@ open Swensen.Unquote
 
 open Fuchu
 
-open Intelliplan.JsonNet
-open Intelliplan.JsonNet.TypeNaming
+open Newtonsoft.Json.FSharp
+open Newtonsoft.Json.FSharp
 
 type Outer = | D | E
 type Outer2 = | F | G
@@ -33,7 +33,7 @@ module TypeNamingTests =
       
       testCase "union nested type (DeclaringType is not null)" <| fun _ ->
         let name = TypeNaming.nameObj (B)
-        name =? "urn:Intelliplan.JsonNet.Tests:TypeNamingTests_A|B"
+        name =? "urn:Newtonsoft.Json.FSharp.Tests:TypeNamingTests_A|B"
 
       testCase "union nested type 2 (DeclaringType is not null)" <| fun _ ->
         let name = TypeNaming.nameObj (logibit.Principals.Principal.X)
@@ -41,26 +41,26 @@ module TypeNamingTests =
 
       testCase "union nested and module-nested type (DeclaringType is not null)" <| fun _ ->
         let name = TypeNaming.nameObj (Internally.I "greet the world")
-        name =? "urn:Intelliplan.JsonNet.Tests:TypeNamingTests_Internally_I|I"
+        name =? "urn:Newtonsoft.Json.FSharp.Tests:TypeNamingTests_Internally_I|I"
 
       testCase "union type in namespace (DeclaringType is null)" <| fun _ ->
         let name = TypeNaming.nameObj (D)
-        name =? "urn:Intelliplan.JsonNet.Tests:Outer|D"
+        name =? "urn:Newtonsoft.Json.FSharp.Tests:Outer|D"
 
       testCase "union type in namespace (DeclaringType is union)" <| fun _ ->
         let name = TypeNaming.nameObj (H)
-        name =? "urn:Intelliplan.JsonNet.Tests:Outer2Inner|H"
+        name =? "urn:Newtonsoft.Json.FSharp.Tests:Outer2Inner|H"
 
       ]
 
 module TypeNamingParseTests =
 
-  let urn = "urn:Intelliplan.Dtos:A|ABC"
+  let urn = "urn:Example.Dtos:A|ABC"
 
   [<Tests>]
   let type_naming_parse_tests =
 
-    let urn = "urn:Intelliplan.Dtos:A|ABC"
+    let urn = "urn:Example.Dtos:A|ABC"
 
     testList "type naming parse tests" [
       testCase "parse type case name" <| fun _ ->
@@ -70,10 +70,10 @@ module TypeNamingParseTests =
         "A" =? ((fun n -> n.Name) << TypeNaming.parse) urn
 
       testCase "parse type namespace" <| fun _ ->
-        "Intelliplan.Dtos" =? ((fun n -> n.Namespace) << TypeNaming.parse) urn
+        "Example.Dtos" =? ((fun n -> n.Namespace) << TypeNaming.parse) urn
 
       testCase "parse type case name" <| fun _ ->
-        let urn = "urn:Intelliplan.Dtos:A|ABC"
+        let urn = "urn:Example.Dtos:A|ABC"
         "ABC" =? ((fun n -> n.CaseName.Value) << TypeNaming.parse) urn
 
       ]
@@ -164,7 +164,7 @@ module MapTests =
 module UnionConverterTests =
   open SharedConverterContext
 
-  let sampleStr = "{\r\n  \"_name\": \"urn:Intelliplan.JsonNet.Tests:UnionConverterTests_Event|Created\",\r\n  \"Created\": null\r\n}"
+  let sampleStr = "{\r\n  \"_name\": \"urn:Newtonsoft.Json.FSharp.Tests:UnionConverterTests_Event|Created\",\r\n  \"Created\": null\r\n}"
 
   type Event = Created | Other
 

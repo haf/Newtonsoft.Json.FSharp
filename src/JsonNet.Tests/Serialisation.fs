@@ -1,8 +1,8 @@
-﻿module Intelliplan.JsonNet.Tests.Serialisation
+module Newtonsoft.Json.FSharp.Tests.Serialisation
 
 open Fuchu
 
-open Intelliplan.JsonNet
+open Newtonsoft.Json.FSharp
 
 type HelloWorld =
   | HelloWorld of string * int

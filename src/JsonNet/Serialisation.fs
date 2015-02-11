@@ -1,4 +1,4 @@
-﻿namespace Intelliplan.JsonNet
+namespace Newtonsoft.Json.FSharp
 
 /// Module containing Newtonsoft.Json converters
 open TypeNaming
@@ -193,13 +193,13 @@ type TupleArrayConverter() =
     | _ -> failwith <| sprintf "invalid token type: %A at path: '%s'" reader.TokenType reader.Path
 
 // {
-//   "_name": "urn:Intelliplan.JsonNet.Tests:A|D1",
+//   "_name": "urn:Newtonsoft.Json.FSharp.Tests:A|D1",
 //  "D1": ["hello",-2]
 // }
 // {
-//  "_name": "urn:Intelliplan.JsonNet.Tests:A|D2",
+//  "_name": "urn:Newtonsoft.Json.FSharp.Tests:A|D2",
 //  "D2": {
-//    "_name": "urn:Intelliplan.JsonNet.Tests:B|E1",
+//    "_name": "urn:Newtonsoft.Json.FSharp.Tests:B|E1",
 //    "E1": "00000000-0000-0000-0000-000000000000"
 //  }
 // }
@@ -232,7 +232,7 @@ type UnionConverter() =
 
     read JsonToken.StartObject |> req |> ignore
     readProp "_name" |> ignore
-    let urnType = read JsonToken.String |> require<string> reader (* e.g. urn:Intelliplan.JsonNet.Tests:A|D1 *)
+    let urnType = read JsonToken.String |> require<string> reader (* e.g. urn:Newtonsoft.Json.FSharp.Tests:A|D1 *)
     let typeData = TypeNaming.parse urnType
     let caseName = typeData.CaseName |> Option.map box |> require<string> reader
     readProp caseName |> req |> ignore
@@ -319,7 +319,7 @@ type MapConverter() =
 
 open System.Runtime.CompilerServices
 
-/// Module interface for the goodies in the Intelliplan.JsonNet assembly.
+/// Module interface for the goodies in the Newtonsoft.Json.FSharp assembly.
 [<Extension>]
 module Serialisation =
 
