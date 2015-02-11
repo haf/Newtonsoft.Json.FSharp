@@ -9,7 +9,7 @@ open Swensen.Unquote
 open Fuchu
 
 open Newtonsoft.Json.FSharp
-open Newtonsoft.Json.FSharp
+open Newtonsoft.Json.FSharp.TypeNaming
 
 type Outer = | D | E
 type Outer2 = | F | G
