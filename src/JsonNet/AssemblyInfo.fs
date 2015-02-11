@@ -1,4 +1,4 @@
-﻿namespace Intelliplan.JsonNet
+namespace Newtonsoft.Json.FSharp
 open System.Reflection
-[<assembly: AssemblyKeyFile("../signing/IntelliplanJsonNetPublic.snk")>]
+[<assembly: AssemblyKeyFile("../signing/JsonNetPublic.snk")>]
 ()

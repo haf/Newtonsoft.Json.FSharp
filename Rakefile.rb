@@ -13,7 +13,7 @@ Configuration = ENV['CONFIGURATION'] || 'Release'
 build :build_clean do |b|
   b.target = 'Clean'
   b.prop 'Configuration', Configuration
-  b.sln = 'src/Intelliplan.JsonNet.sln'
+  b.sln = 'src/Newtonsoft.Json.FSharp.sln'
 end
 
 task :clean => :build_clean
@@ -21,7 +21,7 @@ task :clean => :build_clean
 desc 'Perform fast compilation (warn: doesn\'t d/l deps)'
 build :quick_compile do |b|
   b.prop 'Configuration', Configuration
-  b.sln = 'src/Intelliplan.JsonNet.sln'
+  b.sln = 'src/Newtonsoft.Json.FSharp.sln'
 end
 
 task :paket_bootstrap do
@@ -41,7 +41,7 @@ asmver_files :assembly_info => :versioning do |a|
   # attributes are required:
   a.attributes assembly_description: 'Different serializers for Newtonsoft.Json, making it easier to work with JSON data with Newtonsoft.Json from F#.',
                assembly_configuration: Configuration,
-               assembly_company: 'Intelliplan International AB, Logibit AB',
+               assembly_company: 'Logibit AB',
                assembly_copyright: "(c) #{Time.now.year} by Henrik Feldt",
                assembly_version: ENV['LONG_VERSION'],
                assembly_file_version: ENV['LONG_VERSION'],
@@ -51,11 +51,11 @@ end
 desc 'perform full compilation'
 build :compile => [:versioning, :assembly_info, :restore] do |b|
   b.prop 'Configuration', Configuration
-  b.sln = 'src/Intelliplan.JsonNet.sln'
+  b.sln = 'src/Newtonsoft.Json.FSharp.sln'
 end
 
 task :tests_quick do
-  system "src/JsonNet.Tests/bin/#{Configuration}/Intelliplan.JsonNet.Tests.exe", clr_command: true
+  system "src/JsonNet.Tests/bin/#{Configuration}/Newtonsoft.Json.FSharp.Tests.exe", clr_command: true
 end
 
 desc 'run the unit tests'

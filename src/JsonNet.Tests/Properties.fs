@@ -1,11 +1,11 @@
-﻿module Properties
+module Properties
 
 open System
 open Fuchu
 open FsCheck
 open Newtonsoft.Json
-open Intelliplan.JsonNet.Serialisation
-open Intelliplan.JsonNet
+open Newtonsoft.Json.FSharp
+open Newtonsoft.Json.FSharp.Serialisation
  
 type B =
   | D1 of string * int
