@@ -13,7 +13,7 @@ type OptionConverter() =
 
   override x.CanConvert t =
     t.IsGenericType
-    && typeof<option<_>>.Equals (t.GetGenericTypeDefinition())
+    && typedefof<option<_>>.Equals (t.GetGenericTypeDefinition())
 
   override x.WriteJson(writer, value, serializer) =
     let value =
@@ -29,7 +29,7 @@ type OptionConverter() =
 
     let innerType = 
       if innerType.IsValueType then
-        typeof<Nullable<_>>.MakeGenericType([|innerType|])
+        typedefof<Nullable<_>>.MakeGenericType([| innerType |])
       else
         innerType
 

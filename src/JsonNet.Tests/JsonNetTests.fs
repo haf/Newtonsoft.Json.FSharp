@@ -138,7 +138,6 @@ module MapTests =
     let mapDeser aStr = JsonConvert.DeserializeObject<Map<string, int>>(aStr, MapConverter())
 
     testList "map tests" [
-
       testCase "baseline: serialising empty map {} to string (defaults)" <| fun _ ->
         let js = JsonConvert.SerializeObject(Map.empty<string, int>)
         js =? "{}"
@@ -158,9 +157,73 @@ module MapTests =
 
       testCase "serialising nonempty map roundtrip" <| fun _ ->
         test [MapConverter()] ([("a", 1); ("b", 2); ("c", 3)] |> Map.ofList)
-
       ]
   
+module ListTests =
+  open SharedConverterContext
+
+  [<Tests>]
+  let list_tests =
+    let serialise (x : _ list) =
+      JsonConvert.SerializeObject(x, [| ListConverter() :> JsonConverter |])
+    let deserialise (str : string) =
+      JsonConvert.DeserializeObject(str, [| ListConverter() :> JsonConverter |])
+
+    testList "can serialise & deserialise list" [
+      testCase "back and forth" <| fun _ ->
+        test [ListConverter()] [ 1; 2; 3 ]
+
+      testCase "serialise to array representation" <| fun _ ->
+        let str = serialise [ 1; 2; 3 ]
+        Assert.Equal("should be in array format", "[1,2,3]", str)
+
+      testCase "deserialise" <| fun _ ->
+        let res = deserialise "[1, 2, 3]" : int list
+        Assert.Equal("should equal list", [1; 2; 3], res)
+    ]
+
+module OptionTests =
+
+  [<Tests>]
+  let expected_strings =
+    let serialise (x : _ option) = 
+      JsonConvert.SerializeObject(x, [| OptionConverter() :> JsonConverter |])
+    let deserialise (str : string) =
+      JsonConvert.DeserializeObject(str, [| OptionConverter() :> JsonConverter |])
+      
+    testList "for serialisation of option" [
+      testCase "serialising option of int (None)" <| fun _ ->
+        let str = serialise (None : int option)
+        Assert.Equal("should have null representation", "null", str)
+
+      testCase "serialising option of int (Some 2)" <| fun _ ->
+        let str = serialise (Some 2)
+        Assert.Equal("should have null representation", "2", str)
+
+      testCase "deserialising option of int (2)" <| fun _ ->
+        let res = deserialise "2" : int option
+        Assert.Equal("should have (Some 2) representation", Some 2, res)
+
+      testCase "deserialising option of int (null)" <| fun _ ->
+        let res = deserialise "null" : int option
+        Assert.Equal("should have (None) representation", None, res)
+      ]
+
+module IntegrationTests =
+
+  [<Tests>]
+  let expected_strings =
+    testList "expected strings" [
+      testCase "serialising list of ints" <| fun _ ->
+        let settings =
+          new JsonSerializerSettings()
+          |> Newtonsoft.Json.FSharp.Serialisation.extend
+        let str = JsonConvert.SerializeObject([1; 2; 3], settings)
+        Assert.Equal("should have correct representation", "[1,2,3]", str)
+
+    ]
+
+
 module UnionConverterTests =
   open SharedConverterContext
 

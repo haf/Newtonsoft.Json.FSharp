@@ -20,4 +20,5 @@ let main argv =
     (SystemClock.Instance)
     (fun name -> DebugPrinter name :> Logger)
 
+  //Tests.run Newtonsoft.Json.FSharp.Tests.MapTests.map_tests
   defaultMainThisAssembly argv

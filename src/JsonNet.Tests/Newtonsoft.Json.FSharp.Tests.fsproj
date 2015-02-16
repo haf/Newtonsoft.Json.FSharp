@@ -40,9 +40,6 @@
     <Reference Include="FsSql">
       <HintPath>..\..\..\..\logibit\logibit.web\src\logibit.web\bin\Debug\FsSql.dll</HintPath>
     </Reference>
-    <Reference Include="EventStore.ClientAPI.FSharp">
-      <HintPath>..\..\..\..\logibit\logibit.web\src\logibit.web\bin\Debug\EventStore.ClientAPI.FSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties.fs" />
@@ -53,12 +50,6 @@
     <Compile Include="AssemblyVersionInfo.fs" />
     <Compile Include="Program.fs" />
     <None Include="paket.references" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JsonNet\Newtonsoft.Json.FSharp.fsproj">
-      <Name>Newtonsoft.Json.FSharp</Name>
-      <Project>{4783F637-FB90-466D-B33F-B297C1F33DD4}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
   <Choose>
@@ -256,4 +247,10 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <ProjectReference Include="..\JsonNet\Newtonsoft.Json.FSharp.fsproj">
+      <Project>{4783F637-FB90-466D-B33F-B297C1F33DD4}</Project>
+      <Name>Newtonsoft.Json.FSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

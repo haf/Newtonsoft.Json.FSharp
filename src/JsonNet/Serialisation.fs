@@ -13,8 +13,8 @@ let extend (s : JsonSerializerSettings) =
   s.Converters.Add <| new GuidConverter()
   s.Converters.Add <| new TupleArrayConverter()
   s.Converters.Add <| new OptionConverter()
-  s.Converters.Add <| new ListConverter()
   s.Converters.Add <| new UnionConverter()
+  s.Converters.Add <| new ListConverter()
   s.Converters.Add <| new MapConverter()
   s.NullValueHandling <- NullValueHandling.Ignore
   s

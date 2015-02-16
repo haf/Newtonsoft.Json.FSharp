@@ -2,6 +2,7 @@
 
 open System
 open Microsoft.FSharp.Reflection
+open Microsoft.FSharp.Collections
 
 open Newtonsoft.Json
 open Newtonsoft.Json.FSharp.Logging
@@ -13,9 +14,23 @@ type UnionConverter() =
   let logger = Logging.getLoggerByName "Newtonsoft.Json.FSharp.UnionConverter"
   
   override x.CanConvert t =
-    FSharpType.IsUnion t
-    || (t.DeclaringType <> null
-        && FSharpType.IsUnion(t.DeclaringType))
+    let is_list = t.IsGenericType && typedefof<List<_>>.Equals (t.GetGenericTypeDefinition())
+
+    let can_convert =
+      // leave lists to the list converter
+      not is_list &&
+      // otherwise we can convert union types nicely
+      (FSharpType.IsUnion t || (t.DeclaringType <> null && FSharpType.IsUnion (t.DeclaringType)))
+
+    Logger.verbose logger <| fun _ ->
+      LogLine.sprintf
+        [ "type",             box t
+          "is_list",          box is_list
+          "is_generic_type",  box t.IsGenericType
+          "can_convert",      box can_convert ]
+        "checking for union type"
+
+    can_convert
 
   override x.WriteJson(writer, value, serializer) =
     let t = value.GetType()
