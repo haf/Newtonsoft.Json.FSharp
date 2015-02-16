@@ -224,4 +224,45 @@ module UnionConverterTests =
       testCase "serialising complex nested union" <| fun _ ->
         test <| D2(E2(-3.220000e03, "Goodbye World", 21345I, { lhs = "e"; rhs = "mail" }))
 
+      testCase "deserialise a target Created event" <| fun _ ->
+        let data = """{
+  "_name": "urn:logibit.receipts:Target_Evt|Created",
+  "Created": [
+    {
+      "key": "fortnox",
+      "settings": {
+        "AccessToken": "924f4181-554b-4fe2-aafb-a0705d639a2a",
+        "Client-ID": "7bDss6aD7va9",
+        "Client-Secret": "LJSQi9PRhW"
+      },
+      "description": "aaa"
+    },
+    "principals-380afed3c56a4948b9bce5b14bbadf00"
+  ]
+}"""
+        //System.Diagnostics.Debug.Listeners.Add(new System.Diagnostics.DefaultTraceListener()) |> ignore
+        System.Diagnostics.Debug.WriteLine "---------------------"
+        let actual =
+          JsonConvert.DeserializeObject(
+            data,
+            typeof<logibit.receipts.Target.Evt>,
+            logibit.web.Config.json_opts)
+          :?> logibit.receipts.Target.Evt
+        let expected =
+          logibit.receipts.Target.Evt.Created
+            ({ logibit.receipts.Target.Data.TargetInstance.key = "fortnox"
+               settings =
+                 [ "AccessToken","924f4181-554b-4fe2-aafb-a0705d639a2a"
+                   "Client-ID","7bDss6aD7va9"
+                   "Client-Secret","LJSQi9PRhW" ] |> Map.ofList
+               description = "aaa" },
+             "principals-380afed3c56a4948b9bce5b14bbadf00")
+        let expected' =
+          let s = JsonSerializerSettings()
+          converters |> List.iter s.Converters.Add
+          (typeof<logibit.receipts.Target.Evt>, (data |> System.Text.Encoding.UTF8.GetBytes))
+          |> Serialisation.deserialise s
+
+        Assert.Equal("same", expected, actual)
+        System.Diagnostics.Debug.WriteLine "--------------------- YEY"
       ]

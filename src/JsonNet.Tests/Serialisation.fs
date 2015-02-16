@@ -11,15 +11,15 @@ type HelloWorld =
 let tests =
   testList "can serialise normally" [
     testCase "simple string" <| fun _ ->
-      Serialisation.serialise' "hi" |> ignore
+      Serialisation.serialiseNoOpts "hi" |> ignore
 
     testCase "simple sum type" <| fun _ ->
       let sample = HelloWorld ("hi", 12345)
       let name, data =
-        Serialisation.serialise' sample
+        Serialisation.serialiseNoOpts sample
 
       Assert.Equal("should have data", true, data.Length > 0)
 
-      let o = Serialisation.deserialise' (typeof<HelloWorld>, data) :?> HelloWorld
+      let o = Serialisation.deserialiseNoOpts (typeof<HelloWorld>, data) :?> HelloWorld
       Assert.Equal("should eq structurally", sample, o)
     ]
