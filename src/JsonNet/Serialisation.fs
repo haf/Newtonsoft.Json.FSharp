@@ -16,6 +16,8 @@ let extend (s : JsonSerializerSettings) =
   s.Converters.Add <| new UnionConverter()
   s.Converters.Add <| new ListConverter()
   s.Converters.Add <| new MapConverter()
+  s.Converters.Add <| new UriConverter()
+  s.Converters.Add <| new CultureInfoConverter()
   s.NullValueHandling <- NullValueHandling.Ignore
   s
 

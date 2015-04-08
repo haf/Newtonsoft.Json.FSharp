@@ -45,6 +45,8 @@
     <Compile Include="TupleArrayConverter.fs" />
     <Compile Include="UnionConverter.fs" />
     <Compile Include="MapConverter.fs" />
+    <Compile Include="UriConverter.fs" />
+    <Compile Include="CultureInfoConverter.fs" />
     <Compile Include="Serialisation.fs" />
     <None Include="App.config" />
     <None Include="paket.references" />

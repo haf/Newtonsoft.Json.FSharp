@@ -15,7 +15,7 @@ type DebugPrinter (name : string) =
       Debug.WriteLine (sprintf "%s: %A" name line)
       
 [<EntryPoint>]
-let main argv = 
+let main argv =
   Newtonsoft.Json.FSharp.Logging.configure
     (SystemClock.Instance)
     (fun name -> DebugPrinter name :> Logger)
