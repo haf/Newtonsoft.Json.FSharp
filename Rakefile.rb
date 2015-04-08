@@ -93,6 +93,6 @@ Albacore::Tasks::Release.new :release_myget,
                              depend_on: [:create_nugets, :ensure_key],
                              nuget_exe: 'tools/NuGet.exe',
                              api_key: ENV['MYGET_KEY'],
-                             nuget_source: 'https://www.myget.org/F/logibit/'
+                             nuget_source: 'https://www.myget.org/F/logibit/api/v2/package'
 
 task :default => :create_nugets
