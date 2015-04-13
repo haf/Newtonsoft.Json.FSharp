@@ -30,6 +30,14 @@ type TupleArrayConverter() =
       let rec iter index acc =
         match reader.TokenType with
         | JsonToken.EndArray ->
+          read JsonToken.EndArray |> req |> ignore
+
+          Logger.debug logger <| fun _ ->
+            LogLine.sprintf
+              [ "path", reader.Path |> box
+                "token_type", reader.TokenType |> box ]
+              "after EndArray token, returning"
+
           acc
 
         | JsonToken.StartObject ->
@@ -64,6 +72,7 @@ type TupleArrayConverter() =
               "value token, pre-deserialise"
 
           let value = serialiser.Deserialize(reader, itemTypes.[index])
+          reader.Read () |> ignore
 
           Logger.debug logger <| fun _ ->
             LogLine.sprintf
@@ -71,7 +80,6 @@ type TupleArrayConverter() =
                 "token_type", reader.TokenType |> box ]
               "value token, post-deserialise"
 
-          reader.Read () |> ignore
           iter (index + 1) (acc @ [value])
 
         | JsonToken.Null ->
@@ -89,9 +97,7 @@ type TupleArrayConverter() =
     match reader.TokenType with
     | JsonToken.StartArray ->
       let values = readElements()
-      let res = FSharpValue.MakeTuple (values |> List.toArray, t)
-      read JsonToken.EndArray |> req |> ignore
-      res
+      FSharpValue.MakeTuple (values |> List.toArray, t)
 
     | _ ->
       failwithf "TupleArray: invalid END token '%A' at path: '%s'"

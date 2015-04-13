@@ -16,7 +16,7 @@ type B =
 and D =
   | E1 of string
   | E2 of float * string * int * D
-and E = { lhs : string; rhs : string }
+and E = { lhs : B; rhs : string }
 
 let roundtrip a =
   let serialised = JsonConvert.SerializeObject(a, Formatting.Indented, Serialisation.converters |> List.toArray)

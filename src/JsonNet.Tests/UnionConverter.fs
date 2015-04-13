@@ -11,7 +11,7 @@ type HelloWorld =
   | HelloWorld of string * int
 
 [<Tests>]
-let tests =
+let simple =
   testList "can serialise normally" [
     testCase "simple string" <| fun _ ->
       Serialisation.serialiseNoOpts "hi" |> ignore
@@ -55,7 +55,7 @@ let converters =
 let test<'a when 'a : equality> : 'a -> unit = test converters
 
 [<Tests>]
-let union_converter_tests =
+let complex =
   testList "union converter tests" [
 
     testCase "serialising simple union" <| fun _ ->

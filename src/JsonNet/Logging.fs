@@ -133,7 +133,7 @@ module LogLine =
 
   let private message data message =
     { message   = message
-      level     = Info
+      level     = Verbose
       path      = ""
       data      = data |> Map.ofList
       timestamp = (!logger |> fst).Now }

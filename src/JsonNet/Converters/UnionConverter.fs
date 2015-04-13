@@ -16,7 +16,7 @@ type UnionConverter() =
   override x.CanConvert t =
     let is_list = t.IsGenericType && typedefof<List<_>>.Equals (t.GetGenericTypeDefinition())
 
-    let can_convert =
+    let canConvert =
       // leave lists to the list converter
       not is_list &&
       // otherwise we can convert union types nicely
@@ -27,10 +27,10 @@ type UnionConverter() =
         [ "type",             box t
           "is_list",          box is_list
           "is_generic_type",  box t.IsGenericType
-          "can_convert",      box can_convert ]
+          "can_convert",      box canConvert ]
         "checking for union type"
 
-    can_convert
+    canConvert
 
   override x.WriteJson(writer, value, serializer) =
     let t = value.GetType()

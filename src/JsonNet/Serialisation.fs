@@ -11,9 +11,9 @@ let converters : JsonConverter list =
     GuidConverter()
     ListConverter()
     OptionConverter()
+    MapConverter()
     TupleArrayConverter()
     UnionConverter()
-    MapConverter()
     UriConverter()
     CultureInfoConverter() ]
 

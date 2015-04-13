@@ -19,10 +19,12 @@ type MyArbs =
 
     }*)
 
-
-
 let internal noNulls =
   { FsCheck.Config.Default with Arbitrary = [ typeof<MyArbs> ] }
+
+let deserialise<'T> (converters : JsonConverter list) data =
+  let converters = converters |> List.toArray
+  JsonConvert.DeserializeObject<'T> (data, converters)
 
 let test (serialisers : 'a list when 'a :> JsonConverter) a =
   let converters = serialisers |> List.map (fun x -> x :> JsonConverter) |> List.toArray
