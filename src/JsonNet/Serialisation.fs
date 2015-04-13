@@ -6,18 +6,22 @@ open System.IO
 open Newtonsoft.Json
 open Newtonsoft.Json.FSharp
 
+let converters : JsonConverter list =
+  [ BigIntConverter()
+    GuidConverter()
+    ListConverter()
+    OptionConverter()
+    TupleArrayConverter()
+    UnionConverter()
+    MapConverter()
+    UriConverter()
+    CultureInfoConverter() ]
+
 /// Extend the passed JsonSerializerSettings with
 /// the converters defined in this module/assembly.
 [<CompiledName "ConfigureForFSharp">]
 let extend (s : JsonSerializerSettings) =
-  s.Converters.Add <| new GuidConverter()
-  s.Converters.Add <| new TupleArrayConverter()
-  s.Converters.Add <| new OptionConverter()
-  s.Converters.Add <| new UnionConverter()
-  s.Converters.Add <| new ListConverter()
-  s.Converters.Add <| new MapConverter()
-  s.Converters.Add <| new UriConverter()
-  s.Converters.Add <| new CultureInfoConverter()
+  converters |> List.iter s.Converters.Add
   s.NullValueHandling <- NullValueHandling.Ignore
   s
 

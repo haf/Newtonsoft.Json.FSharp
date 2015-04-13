@@ -12,7 +12,7 @@ type UnionConverter() =
   inherit JsonConverter()
 
   let logger = Logging.getLoggerByName "Newtonsoft.Json.FSharp.UnionConverter"
-  
+
   override x.CanConvert t =
     let is_list = t.IsGenericType && typedefof<List<_>>.Equals (t.GetGenericTypeDefinition())
 

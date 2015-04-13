@@ -35,18 +35,18 @@
   <ItemGroup>
     <Compile Include="AssemblyVersionInfo.fs" />
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Prelude.fs" />
     <Compile Include="Logging.fs" />
     <Compile Include="TypeNaming.fs" />
-    <Compile Include="SerialisationFunctions.fs" />
-    <Compile Include="BigIntConverter.fs" />
-    <Compile Include="GuidConverter.fs" />
-    <Compile Include="ListConverter.fs" />
-    <Compile Include="OptionConverter.fs" />
-    <Compile Include="TupleArrayConverter.fs" />
-    <Compile Include="UnionConverter.fs" />
-    <Compile Include="MapConverter.fs" />
-    <Compile Include="UriConverter.fs" />
-    <Compile Include="CultureInfoConverter.fs" />
+    <Compile Include="Converters\BigIntConverter.fs" />
+    <Compile Include="Converters\GuidConverter.fs" />
+    <Compile Include="Converters\ListConverter.fs" />
+    <Compile Include="Converters\OptionConverter.fs" />
+    <Compile Include="Converters\TupleArrayConverter.fs" />
+    <Compile Include="Converters\UnionConverter.fs" />
+    <Compile Include="Converters\MapConverter.fs" />
+    <Compile Include="Converters\UriConverter.fs" />
+    <Compile Include="Converters\CultureInfoConverter.fs" />
     <Compile Include="Serialisation.fs" />
     <None Include="App.config" />
     <None Include="paket.references" />
@@ -198,4 +198,7 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
 </Project>

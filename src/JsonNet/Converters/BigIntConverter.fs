@@ -5,6 +5,7 @@ open System.Reflection
 open Microsoft.FSharp.Reflection
 
 open Newtonsoft.Json
+open Newtonsoft.Json.FSharp
 open Newtonsoft.Json.FSharp.TypeNaming
 
 /// Converter for BigInteger types from F#.
@@ -25,7 +26,7 @@ type BigIntConverter() =
     writer.WritePropertyName("value")
     writer.WriteValue(bi.ToString())
     writer.WriteEndObject()
-
+ 
   override x.ReadJson(reader, t, _, serializer) =
     let read, readProp, req = (read, readProp, require) $ reader
     read JsonToken.StartObject |> req |> ignore

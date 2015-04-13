@@ -1,5 +1,5 @@
 ﻿[<AutoOpen>]
-module internal Newtonsoft.Json.FSharp.SerialisationFunctions
+module internal Newtonsoft.Json.FSharp.Prelude
 
 open Newtonsoft.Json
 

@@ -15,7 +15,7 @@ type MapConverter() =
   inherit JsonConverter()
 
   let logger = Logging.getLoggerByName "Newtonsoft.Json.FSharp.MapConverter"
-  
+
   let flags = BindingFlags.Static ||| BindingFlags.NonPublic
 
   let key (kvp : obj) = kvp.GetType().GetProperty("Key").GetValue(kvp, null)

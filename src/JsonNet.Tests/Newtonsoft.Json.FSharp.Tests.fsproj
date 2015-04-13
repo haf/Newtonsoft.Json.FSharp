@@ -41,14 +41,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties.fs" />
-    <Compile Include="Samples.fs" />
-    <Compile Include="Serialisation.fs" />
-    <Compile Include="JsonNetTests.fs" />
-    <None Include="App.config" />
     <Compile Include="AssemblyVersionInfo.fs" />
-    <Compile Include="Program.fs" />
     <None Include="paket.references" />
+    <Compile Include="TestFac.fs" />
+    <Compile Include="TestFac.Types.fs" />
+    <Compile Include="Properties.fs" />
+    <Compile Include="FSharpRecord.fs" />
+    <Compile Include="TupleArrayConverter.fs" />
+    <Compile Include="MapConverter.fs" />
+    <Compile Include="ListConverter.fs" />
+    <Compile Include="OptionConverter.fs" />
+    <Compile Include="BigIntConverter.fs" />
+    <Compile Include="UnionConverter.fs" />
+    <Compile Include="UriConverter.fs" />
+    <Compile Include="TypeNaming.fs" />
+    <Compile Include="IntegrationTests.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
   <Choose>
