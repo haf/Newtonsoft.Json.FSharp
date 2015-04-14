@@ -6,6 +6,8 @@ Nice F# support for Newtonsoft.JSON - tuples as arrays, maps as objects, lists a
 
 You can find [all the converters in the source tree](https://github.com/haf/Newtonsoft.Json.FSharp/tree/master/src/JsonNet/Converters).
 
+The convert both from and to.
+
 ### BigInt Converter
 
 ```
