@@ -10,7 +10,7 @@ You have three choices;
 
 ```
 open Newtonsoft.Json.FSharp
-let str = JsonConvert.Serialize(o, [| DecimalConverter() :> JsonConverter |])
+let str = JsonConvert.Serialize(o, [| GuidConverter() :> JsonConverter |])
 ```
 
 ### 2. You can add the converters:
